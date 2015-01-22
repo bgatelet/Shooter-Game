@@ -1,6 +1,6 @@
 # RSpec example.
 
-require_relative 'player'
+require '/shooter/player'
 
 describe Player do
 

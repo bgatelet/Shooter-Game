@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+
+# Main game file; run to play the game.
+
+require_relative '../lib/shooter/player'
+
+puts "".center(60, '-')
+puts "Shooter Game".center(60, '-')
+puts "".center(60, '-')
+puts "\n User input: 'shoot', 'reload', 'block'."
+puts "\n Player name: "
+name = gets.chomp
+
+player = Human.new(name)
+player.level
+
+# Capture health and bullets given from .level in case the player wins and wants to continue playing.
+healthL = player.health
+bulletsL = player.bullets
+
+# Variables for controlling the main loop and correcting the number of AI defeated.
+playing = true
+# If the player loses, they will have defeated the total AI population minus one.
+dif = 1
+
+# Main loop.
+begin
+  comp = Computer.new
+
+  # Game loop that relies on the Play module (play.rb).
+  begin
+    puts "#{player.name}: #{player.health}hp, #{player.bullets} bullets."
+    puts "#{comp.name}: #{comp.health}hp, #{comp.bullets} bullets."
+    player.play(player, comp)
+  end while player.health > 0 && comp.health > 0
+
+  # If the player lost, the game is over.
+  # Otherwise, if they won, they can shoose if they want to keep on playing.
+  if player.health == 0
+    puts "Player lost."
+    playing = false
+  elsif comp.health == 0
+    puts "Computer lost."
+
+    # Continuing players keep the same difficulty chosen at the beginning.
+    loop do
+      puts "Would you like to play another round?(yes/no) "
+      continue = gets.chomp.downcase
+      if continue == 'yes'
+        player.health = healthL
+        player.bullets = bulletsL
+        break
+      elsif continue == 'no'
+        playing = false
+        dif = 0
+        break
+      else
+        puts "Please type a correct action."
+      end
+    end
+  end
+end while playing != false
+
+# Prints score of how many computers were defeated based on how the game ended.
+puts "You defeated #{comp.population - dif} robot(s)!"
