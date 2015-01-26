@@ -2,6 +2,8 @@
 
 module Level
   def level
+    answer = ''
+
     loop do
       puts "What difficulty would you like?(easy, medium, hard)"
       answer = gets.chomp.downcase
@@ -22,5 +24,7 @@ module Level
         puts "Please write a correct difficulty."
       end
     end
+
+    return answer
   end
 end

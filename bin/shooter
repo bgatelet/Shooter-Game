@@ -12,7 +12,7 @@ puts "\n Player name: "
 name = gets.chomp
 
 player = Human.new(name)
-player.level
+level = player.level
 
 # Capture health and bullets given from .level in case the player wins and wants to continue playing.
 healthL = player.health
@@ -62,4 +62,14 @@ begin
 end while playing != false
 
 # Prints score of how many computers were defeated based on how the game ended.
-puts "You defeated #{comp.population - dif} robot(s)!"
+population = comp.population - dif
+puts "You defeated #{population} robot(s)!"
+
+# Save the player's score.
+player.saveable(population, level, player.name)
+
+# Output all high scores in descending order.
+puts "\n"
+puts "High Scores:"
+player.loadable("high_score.csv")
+puts "\n"

@@ -3,10 +3,12 @@
 require_relative 'action'
 require_relative 'level'
 require_relative 'play'
+require_relative 'high_score'
 
 # Main player class for health and bullets.
 class Player
   include Play
+  include HighScore
 
   attr_accessor :health, :bullets
 
@@ -39,7 +41,7 @@ class Computer < Player
   @@computer_population = 0
 
   def initialize()
-    @name = "Computer #{@@computer_population + 1}"
+    @name = "Robot #{@@computer_population + 1}"
     super()
     @@computer_population += 1
   end
